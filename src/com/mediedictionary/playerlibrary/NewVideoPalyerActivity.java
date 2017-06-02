@@ -34,7 +34,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	private SeekBar sbVideo;
 	private ImageButton ibLock, ibFarward, ibBackward, ibPlay,ibEnlarge;
 	private View llOverlay, rlOverlayTitle;
-//	private View control_layot;
+	private View control_layot;
 	private Handler mHandler;
 	private static final int MSG_SCREEN_FULL = 0x00000001;
 	private static final int MSG_SCREEN_WRAP = 0x00000002;
@@ -42,7 +42,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	private ImageView image_back;
 	private String mUrl,mAddress,mDeviceModel,mHostVersion;
 	private TextView tvTitle,tvAddress,tvDeviceModel,tv_hostVersion;
-//	private boolean canControl = false;
+	private boolean canControl = false;
 
 
 	private Handler handler = new Handler(){
@@ -98,7 +98,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 
 		llOverlay = findViewById(R.id.ll_overlay);
 		rlOverlayTitle = findViewById(R.id.rl_title);
-//		control_layot = findViewById(R.id.control_layot);
+		control_layot = findViewById(R.id.control_layot);
 
 		rlLoading = findViewById(R.id.rl_loading);
 		tvBuffer = (TextView) findViewById(R.id.tv_buffer);
@@ -129,11 +129,11 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 			tvDeviceModel.setText("摄像头类型:无");
 		}else{
 			tvDeviceModel.setText("摄像头类型："+ mDeviceModel);
-//			if(mDeviceModel.equals("枪式摄像头") || mDeviceModel.equals("半球摄像头")){
-//				canControl = true;
-//			}else{
-//				canControl = false;
-//			}
+			if(mDeviceModel.equals("枪式摄像头") || mDeviceModel.equals("半球摄像头")){
+				canControl = true;
+			}else{
+				canControl = false;
+			}
 		}
 		if(TextUtils.isEmpty(mHostVersion)){
 			tv_hostVersion.setText("主控版本:无");
@@ -168,7 +168,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			if (llOverlay.getVisibility() != View.VISIBLE
-//					|| control_layot.getVisibility() != View.VISIBLE
+					|| control_layot.getVisibility() != View.VISIBLE
 					) {
 				showOverlay();
 			} else {
@@ -254,7 +254,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	@Override
 	protected void onDestroy() {
 		Log.e(TAG,"onDestroy");
-//		canControl = false;
+		canControl = false;
 		super.onDestroy();
 	}
 
@@ -341,9 +341,9 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 			llOverlay.setVisibility(View.VISIBLE);
 		}
 
-//		if(canControl){
-//			control_layot.setVisibility(View.VISIBLE);
-//		}
+		if(canControl){
+			control_layot.setVisibility(View.VISIBLE);
+		}
 		mHandler.sendEmptyMessage(SHOW_PROGRESS);
 		mHandler.removeMessages(HIDE_OVERLAY);
 		mHandler.sendEmptyMessageDelayed(HIDE_OVERLAY, 5 * 1000);
@@ -353,7 +353,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
 			llOverlay.setVisibility(View.GONE);
 		}
-//		control_layot.setVisibility(View.GONE);
+		control_layot.setVisibility(View.GONE);
 		mHandler.removeMessages(SHOW_PROGRESS);
 	}
 
@@ -404,7 +404,6 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 			break;
 		case ON_LOADED:
 			showOverlay();
-//			hideLoading();
 			break;
 		case HIDE_OVERLAY:
 			hideOverlay();
@@ -453,9 +452,9 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		if(keyCode == KeyEvent.KEYCODE_BACK){
 			if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//				if(canControl){
-//					control_layot.setVisibility(View.VISIBLE);
-//				}
+				if(canControl){
+					control_layot.setVisibility(View.VISIBLE);
+				}
 				llOverlay.setVisibility(View.VISIBLE);
 				rlOverlayTitle.setVisibility(View.VISIBLE);
 				ibEnlarge.setVisibility(View.VISIBLE);

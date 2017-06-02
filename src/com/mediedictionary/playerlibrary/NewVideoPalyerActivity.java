@@ -22,7 +22,9 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.mediedictionary.playerlibrary.PlayerView.OnChangeListener;
 import org.videolan.libvlc.EventHandler;
 
-public class NewVideoPalyerActivity extends Activity implements OnChangeListener, OnClickListener, OnSeekBarChangeListener, Callback {
+public class NewVideoPalyerActivity extends Activity implements OnChangeListener, OnClickListener,
+		OnSeekBarChangeListener, Callback,OkHttpClientManager.HttpCallback {
+
 	private static final String TAG ="NewVideoPalyerActivity";
 	private static final int SHOW_PROGRESS = 0;
 	private static final int ON_LOADED = 1;
@@ -43,6 +45,8 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	private String mUrl,mAddress,mDeviceModel,mHostVersion;
 	private TextView tvTitle,tvAddress,tvDeviceModel,tv_hostVersion;
 	private boolean canControl = false;
+
+	private ImageButton up_btn,down_btn,left_btn,right_btn;
 
 
 	private Handler handler = new Handler(){
@@ -110,6 +114,16 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		tvAddress=(TextView) findViewById(R.id.tv_address);
 		tvDeviceModel=(TextView) findViewById(R.id.tv_deviceModel);
 		tv_hostVersion=(TextView) findViewById(R.id.tv_hostVersion);
+
+		up_btn = (ImageButton)findViewById(R.id.up_btn);
+		down_btn = (ImageButton)findViewById(R.id.down_btn);
+		left_btn = (ImageButton)findViewById(R.id.left_btn);
+		right_btn = (ImageButton)findViewById(R.id.right_btn);
+
+		up_btn.setOnClickListener(this);
+		down_btn.setOnClickListener(this);
+		left_btn.setOnClickListener(this);
+		right_btn.setOnClickListener(this);
 
 
 
@@ -333,6 +347,22 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 				finish();
 			}
 			break;
+
+			case R.id.up_btn:
+
+				break;
+
+			case R.id.down_btn:
+
+				break;
+
+			case R.id.left_btn:
+
+				break;
+
+			case R.id.right_btn:
+
+				break;
 		}
 	}
 
@@ -466,5 +496,20 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void onSuccess(String result, int code) {
+
+	}
+
+	@Override
+	public void onStart(int code) {
+
+	}
+
+	@Override
+	public void onFailure(int code) {
+
 	}
 }

@@ -247,7 +247,6 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	@Override
 	public void onPause() {
 		Log.e(TAG,"onPause");
-		hideOverlay();
 		if(mPlayerView != null || mPlayerView.isPlaying()){
 		 	mPlayerView.pause();
 			 ibPlay.setBackgroundResource(R.drawable.ic_play);

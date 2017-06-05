@@ -34,9 +34,10 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	private PlayerView mPlayerView;
 	private TextView tvBuffer, tvTime, tvLength;
 	private SeekBar sbVideo;
-	private ImageButton ibLock, ibFarward, ibBackward, ibPlay,ibEnlarge;
+//	private ImageButton ibLock, ibFarward, ibBackward, ibPlay;
+	private ImageButton ibEnlarge;
 	private View llOverlay, rlOverlayTitle;
-	private View control_layot;
+//	private View control_layot;
 	private Handler mHandler;
 	private static final int MSG_SCREEN_FULL = 0x00000001;
 	private static final int MSG_SCREEN_WRAP = 0x00000002;
@@ -44,7 +45,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	private ImageView image_back;
 	private String mUrl,mAddress,mDeviceModel,mHostVersion;
 	private TextView tvTitle,tvAddress,tvDeviceModel,tv_hostVersion;
-	private boolean canControl = false;
+//	private boolean canControl = false;
 
 	private ImageButton up_btn,down_btn,left_btn,right_btn;
 
@@ -89,20 +90,20 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		tvLength = (TextView) findViewById(R.id.tv_length);
 		sbVideo = (SeekBar) findViewById(R.id.sb_video);
 		sbVideo.setOnSeekBarChangeListener(this);
-		ibLock = (ImageButton) findViewById(R.id.ib_lock);
-		ibLock.setOnClickListener(this);
-		ibBackward = (ImageButton) findViewById(R.id.ib_backward);
-		ibBackward.setOnClickListener(this);
-		ibPlay = (ImageButton) findViewById(R.id.ib_play);
-		ibPlay.setOnClickListener(this);
-		ibFarward = (ImageButton) findViewById(R.id.ib_forward);
-		ibFarward.setOnClickListener(this);
+//		ibLock = (ImageButton) findViewById(R.id.ib_lock);
+//		ibLock.setOnClickListener(this);
+//		ibBackward = (ImageButton) findViewById(R.id.ib_backward);
+//		ibBackward.setOnClickListener(this);
+//		ibPlay = (ImageButton) findViewById(R.id.ib_play);
+//		ibPlay.setOnClickListener(this);
+//		ibFarward = (ImageButton) findViewById(R.id.ib_forward);
+//		ibFarward.setOnClickListener(this);
 		ibEnlarge = (ImageButton) findViewById(R.id.ib_enlarge);
 		ibEnlarge.setOnClickListener(this);
 
 		llOverlay = findViewById(R.id.ll_overlay);
 		rlOverlayTitle = findViewById(R.id.rl_title);
-		control_layot = findViewById(R.id.control_layot);
+//		control_layot = findViewById(R.id.control_layot);
 
 		rlLoading = findViewById(R.id.rl_loading);
 		tvBuffer = (TextView) findViewById(R.id.tv_buffer);
@@ -143,11 +144,11 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 			tvDeviceModel.setText("摄像头类型:无");
 		}else{
 			tvDeviceModel.setText("摄像头类型："+ mDeviceModel);
-			if(mDeviceModel.equals("枪式摄像头") || mDeviceModel.equals("半球摄像头")){
-				canControl = true;
-			}else{
-				canControl = false;
-			}
+//			if(mDeviceModel.equals("枪式摄像头") || mDeviceModel.equals("半球摄像头")){
+//				canControl = true;
+//			}else{
+//				canControl = false;
+//			}
 		}
 		if(TextUtils.isEmpty(mHostVersion)){
 			tv_hostVersion.setText("主控版本:无");
@@ -182,7 +183,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			if (llOverlay.getVisibility() != View.VISIBLE
-					|| control_layot.getVisibility() != View.VISIBLE
+//					|| control_layot.getVisibility() != View.VISIBLE
 					) {
 				showOverlay();
 			} else {
@@ -247,27 +248,30 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	@Override
 	public void onPause() {
 		Log.e(TAG,"onPause");
-		if(mPlayerView != null || mPlayerView.isPlaying()){
-		 	mPlayerView.pause();
-			 ibPlay.setBackgroundResource(R.drawable.ic_play);
-		 }
+//		if(mPlayerView != null || mPlayerView.isPlaying()){
+//		 	mPlayerView.pause();
+//			 ibPlay.setBackgroundResource(R.drawable.ic_play);
+//		 }
 		super.onPause();
 	}
 	
 	@Override
 	protected void onResume() {
 		Log.e(TAG,"onResume");
-		 if(mPlayerView != null){
-		 	mPlayerView.play();
-			 ibPlay.setBackgroundResource(R.drawable.ic_pause);
-		 }
+//		 if(mPlayerView != null){
+//		 	mPlayerView.play();
+//			 ibPlay.setBackgroundResource(R.drawable.ic_pause);
+//		 }
 		super.onResume();
 	}
 
 	@Override
 	protected void onDestroy() {
 		Log.e(TAG,"onDestroy");
-		canControl = false;
+//		canControl = false;
+		if(mPlayerView != null){
+			mPlayerView.stop();
+		}
 		super.onDestroy();
 	}
 
@@ -308,24 +312,24 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
-		case R.id.ib_lock:
-			break;
-		case R.id.ib_forward:
-			mPlayerView.seek(10000);
-			break;
-		case R.id.ib_play:
-			if (mPlayerView.isPlaying()) {
-				mPlayerView.pause();
-				ibPlay.setBackgroundResource(R.drawable.ic_play);
-			} else {
-				mPlayerView.play();
-				ibPlay.setBackgroundResource(R.drawable.ic_pause);
-			}
-			break;
+//		case R.id.ib_lock:
+//			break;
+//		case R.id.ib_forward:
+//			mPlayerView.seek(10000);
+//			break;
+//		case R.id.ib_play:
+//			if (mPlayerView.isPlaying()) {
+//				mPlayerView.pause();
+//				ibPlay.setBackgroundResource(R.drawable.ic_play);
+//			} else {
+//				mPlayerView.play();
+//				ibPlay.setBackgroundResource(R.drawable.ic_pause);
+//			}
+//			break;
 
-		case R.id.ib_backward:
-			mPlayerView.seek(-10000);
-			break;
+//		case R.id.ib_backward:
+//			mPlayerView.seek(-10000);
+//			break;
 		case R.id.ib_enlarge:
 			if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -370,9 +374,9 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 			llOverlay.setVisibility(View.VISIBLE);
 		}
 
-		if(canControl){
-			control_layot.setVisibility(View.VISIBLE);
-		}
+//		if(canControl){
+//			control_layot.setVisibility(View.VISIBLE);
+//		}
 		mHandler.sendEmptyMessage(SHOW_PROGRESS);
 		mHandler.removeMessages(HIDE_OVERLAY);
 		mHandler.sendEmptyMessageDelayed(HIDE_OVERLAY, 5 * 1000);
@@ -382,7 +386,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
 			llOverlay.setVisibility(View.GONE);
 		}
-		control_layot.setVisibility(View.GONE);
+//		control_layot.setVisibility(View.GONE);
 		mHandler.removeMessages(SHOW_PROGRESS);
 	}
 
@@ -392,9 +396,9 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		}
 		int time = (int) mPlayerView.getTime();
 		int length = (int) mPlayerView.getLength();
-		boolean isSeekable = mPlayerView.canSeekable() && length > 0;
-		ibFarward.setClickable(isSeekable ? true : false);
-		ibBackward.setClickable(isSeekable ? true : false);
+//		boolean isSeekable = mPlayerView.canSeekable() && length > 0;
+//		ibFarward.setClickable(isSeekable ? true : false);
+//		ibBackward.setClickable(isSeekable ? true : false);
 		sbVideo.setMax(length);
 		sbVideo.setProgress(time);
 		if (time >= 0) {
@@ -481,9 +485,9 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		if(keyCode == KeyEvent.KEYCODE_BACK){
 			if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-				if(canControl){
-					control_layot.setVisibility(View.VISIBLE);
-				}
+//				if(canControl){
+//					control_layot.setVisibility(View.VISIBLE);
+//				}
 				llOverlay.setVisibility(View.VISIBLE);
 				rlOverlayTitle.setVisibility(View.VISIBLE);
 				ibEnlarge.setVisibility(View.VISIBLE);

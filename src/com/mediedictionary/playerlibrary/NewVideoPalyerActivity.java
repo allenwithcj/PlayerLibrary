@@ -23,7 +23,7 @@ import com.mediedictionary.playerlibrary.PlayerView.OnChangeListener;
 import org.videolan.libvlc.EventHandler;
 
 public class NewVideoPalyerActivity extends Activity implements OnChangeListener, OnClickListener,
-		OnSeekBarChangeListener, Callback,OkHttpClientManager.HttpCallback {
+		OnSeekBarChangeListener, Callback{
 
 	private static final String TAG ="NewVideoPalyerActivity";
 	private static final int SHOW_PROGRESS = 0;
@@ -44,10 +44,11 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 
 	private ImageView image_back;
 	private String mUrl,mAddress,mDeviceModel,mHostVersion;
-	private TextView tvTitle,tvAddress,tvDeviceModel,tv_hostVersion;
+	private TextView tvAddress,tvDeviceModel,tv_hostVersion;
 //	private boolean canControl = false;
 
 	private ImageButton up_btn,down_btn,left_btn,right_btn;
+	private View rlHeader;
 
 
 	private Handler handler = new Handler(){
@@ -104,14 +105,13 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		llOverlay = findViewById(R.id.ll_overlay);
 		rlOverlayTitle = findViewById(R.id.rl_title);
 //		control_layot = findViewById(R.id.control_layot);
-
+		rlHeader = findViewById(R.id.rlHeader);
 		rlLoading = findViewById(R.id.rl_loading);
 		tvBuffer = (TextView) findViewById(R.id.tv_buffer);
 
 		image_back = (ImageView)findViewById(R.id.image_back);
 		image_back.setOnClickListener(this);
 
-		tvTitle = (TextView) findViewById(R.id.tv_title);
 		tvAddress=(TextView) findViewById(R.id.tv_address);
 		tvDeviceModel=(TextView) findViewById(R.id.tv_deviceModel);
 		tv_hostVersion=(TextView) findViewById(R.id.tv_hostVersion);
@@ -125,15 +125,6 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		down_btn.setOnClickListener(this);
 		left_btn.setOnClickListener(this);
 		right_btn.setOnClickListener(this);
-
-
-
-
-		if(TextUtils.isEmpty(mUrl)){
-			tvTitle.setText("访问地址：无");
-		}else{
-			tvTitle.setText("访问地址：："+mUrl);
-		}
 
 		if(TextUtils.isEmpty(mAddress)){
 			tvAddress.setText("摄像头地址:无");
@@ -181,13 +172,23 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_UP) {
-			if (llOverlay.getVisibility() != View.VISIBLE
-//					|| control_layot.getVisibility() != View.VISIBLE
-					) {
-				showOverlay();
-			} else {
-				hideOverlay();
+
+
+		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+			if (event.getAction() == MotionEvent.ACTION_UP) {
+				if (rlHeader.getVisibility() != View.VISIBLE) {
+					showOverlay();
+				} else {
+					hideOverlay();
+				}
+			}
+		}else{
+			if (event.getAction() == MotionEvent.ACTION_UP) {
+				if (llOverlay.getVisibility() != View.VISIBLE) {
+					showOverlay();
+				} else {
+					hideOverlay();
+				}
 			}
 		}
 		return false;
@@ -209,13 +210,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	}
 
 	private void setScreenLayoutParams(int width, int height) {
-		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
-		if (width == ViewGroup.LayoutParams.MATCH_PARENT && height == ViewGroup.LayoutParams.MATCH_PARENT) {
-			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-			layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-		}
+		FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(width, height);
 		mPlayerView.setLayoutParams(layoutParams);
 		mPlayerView.requestFocus();
 	}
@@ -335,6 +330,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 				ibEnlarge.setVisibility(View.GONE);
 				rlOverlayTitle.setVisibility(View.GONE);
+				hideOverlay();
 			}
 			break;
 
@@ -343,6 +339,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 				rlOverlayTitle.setVisibility(View.VISIBLE);
 				ibEnlarge.setVisibility(View.VISIBLE);
+				rlHeader.setVisibility(View.VISIBLE);
 			}else{
 				if(mPlayerView != null){
 					mPlayerView.stop();
@@ -373,6 +370,9 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
 			llOverlay.setVisibility(View.VISIBLE);
 		}
+		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+			rlHeader.setVisibility(View.VISIBLE);
+		}
 
 //		if(canControl){
 //			control_layot.setVisibility(View.VISIBLE);
@@ -385,6 +385,9 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 	private void hideOverlay() {
 		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
 			llOverlay.setVisibility(View.GONE);
+		}
+		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+			rlHeader.setVisibility(View.GONE);
 		}
 //		control_layot.setVisibility(View.GONE);
 		mHandler.removeMessages(SHOW_PROGRESS);
@@ -491,6 +494,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 				llOverlay.setVisibility(View.VISIBLE);
 				rlOverlayTitle.setVisibility(View.VISIBLE);
 				ibEnlarge.setVisibility(View.VISIBLE);
+				rlHeader.setVisibility(View.VISIBLE);
 			}else{
 				if(mPlayerView != null){
 					mPlayerView.stop();
@@ -501,18 +505,4 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 		return true;
 	}
 
-	@Override
-	public void onSuccess(String result, int code) {
-
-	}
-
-	@Override
-	public void onStart(int code) {
-
-	}
-
-	@Override
-	public void onFailure(int code) {
-
-	}
 }

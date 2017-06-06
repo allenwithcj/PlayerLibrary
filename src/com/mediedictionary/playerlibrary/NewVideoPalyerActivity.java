@@ -330,6 +330,7 @@ public class NewVideoPalyerActivity extends Activity implements OnChangeListener
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 				ibEnlarge.setVisibility(View.GONE);
 				rlOverlayTitle.setVisibility(View.GONE);
+				rlHeader.setVisibility(View.GONE);
 				hideOverlay();
 			}
 			break;
